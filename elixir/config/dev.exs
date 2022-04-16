@@ -2,8 +2,8 @@ use Mix.Config
 
 # Configure your database
 config :homework, Homework.Repo,
-  username: System.get_env("POSTGRES_USER") || "postgres",
-  password: System.get_env("POSTGRES_PASSWORD") || "postgres",
+  username: System.get_env("POSTGRES_USER") || "justin.allen@divvypay.com",
+  password: System.get_env("POSTGRES_PASSWORD") || "",
   hostname: System.get_env("POSTGRES_HOST") || "localhost",
   database: System.get_env("POSTGRES_DATABASE") || "homework_dev",
   show_sensitive_data_on_connection_error: true,
