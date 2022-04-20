@@ -1,4 +1,4 @@
-defmodule Homework.TransactionsTest do
+defmodule Homework.CompanyTransactionTest do
   use Homework.DataCase
 
   alias Ecto.UUID
@@ -6,8 +6,9 @@ defmodule Homework.TransactionsTest do
   alias Homework.Transactions
   alias Homework.Users
   alias Homework.Companies
+  alias Homework.CompanyTransactions
 
-  describe "transactions" do
+  describe "companyTransactions" do
     alias Homework.Transactions.Transaction
 
     setup do
@@ -103,17 +104,7 @@ defmodule Homework.TransactionsTest do
       transaction
     end
 
-    test "list_transactions/1 returns all transactions", %{valid_attrs: valid_attrs} do
-      transaction = transaction_fixture(valid_attrs)
-      assert Transactions.list_transactions([]) == [transaction]
-    end
-
-    test "get_transaction!/1 returns the transaction with given id", %{valid_attrs: valid_attrs} do
-      transaction = transaction_fixture(valid_attrs)
-      assert Transactions.get_transaction!(transaction.id) == transaction
-    end
-
-    test "create_transaction/1 with valid data creates a transaction", %{
+    test "create_copmanyTransaction/1 with valid data creates a transaction & updates associated company available_credit ", %{
       valid_attrs: valid_attrs,
       merchant1: merchant1,
       user1: user1,
@@ -127,56 +118,19 @@ defmodule Homework.TransactionsTest do
       assert transaction.merchant_id == merchant1.id
       assert transaction.user_id == user1.id
       assert transaction.company_id == company1.id
+
+      assert {:ok, %Companies.Company{} = company} = CompanyTransactions.create_companyTransaction(valid_attrs)
+      assert company.credit_line == 100
+      assert company.available_credit < 100
+      assert company.name == "some name"
+
     end
 
-    test "create_transaction/1 with invalid data returns error changeset", %{
+    test "create_companyTransaction/1 with invalid data returns error changeset", %{
       invalid_attrs: invalid_attrs
     } do
-      assert {:error, %Ecto.Changeset{}} = Transactions.create_transaction(invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = CompanyTransactions.create_companyTransaction(invalid_attrs)
     end
 
-    test "update_transaction/2 with valid data updates the transaction", %{
-      valid_attrs: valid_attrs,
-      update_attrs: update_attrs,
-      merchant2: merchant2,
-      user2: user2,
-      company2: company2
-    } do
-      transaction = transaction_fixture(valid_attrs)
-
-      assert {:ok, %Transaction{} = transaction} =
-               Transactions.update_transaction(transaction, update_attrs)
-
-      assert transaction.amount == 43
-      assert transaction.credit == false
-      assert transaction.debit == false
-      assert transaction.description == "some updated description"
-      assert transaction.merchant_id == merchant2.id
-      assert transaction.user_id == user2.id
-      assert transaction.company_id == company2.id
-    end
-
-    test "update_transaction/2 with invalid data returns error changeset", %{
-      valid_attrs: valid_attrs,
-      invalid_attrs: invalid_attrs
-    } do
-      transaction = transaction_fixture(valid_attrs)
-
-      assert {:error, %Ecto.Changeset{}} =
-               Transactions.update_transaction(transaction, invalid_attrs)
-
-      assert transaction == Transactions.get_transaction!(transaction.id)
-    end
-
-    test "delete_transaction/1 deletes the transaction", %{valid_attrs: valid_attrs} do
-      transaction = transaction_fixture(valid_attrs)
-      assert {:ok, %Transaction{}} = Transactions.delete_transaction(transaction)
-      assert_raise Ecto.NoResultsError, fn -> Transactions.get_transaction!(transaction.id) end
-    end
-
-    test "change_transaction/1 returns a transaction changeset", %{valid_attrs: valid_attrs} do
-      transaction = transaction_fixture(valid_attrs)
-      assert %Ecto.Changeset{} = Transactions.change_transaction(transaction)
-    end
   end
 end

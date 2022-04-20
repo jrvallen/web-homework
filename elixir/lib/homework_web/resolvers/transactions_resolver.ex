@@ -3,6 +3,7 @@ defmodule HomeworkWeb.Resolvers.TransactionsResolver do
   alias Homework.Transactions
   alias Homework.Users
   alias Homework.Companies
+  alias Homework.CompanyTransactions
 
   @doc """
   Get a list of transcations
@@ -42,6 +43,19 @@ defmodule HomeworkWeb.Resolvers.TransactionsResolver do
 
       error ->
         {:error, "could not create transaction: #{inspect(error)}"}
+    end
+  end
+
+  @doc """
+  Create a new transaction
+  """
+  def create_companyTransaction(_root, args, _info) do
+    case CompanyTransactions.create_companyTransaction(args) do
+      {:ok, transaction} ->
+        {:ok, transaction}
+
+      error ->
+        {:error, "could not create companyTransaction: #{inspect(error)}"}
     end
   end
 

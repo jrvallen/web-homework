@@ -52,7 +52,7 @@ defmodule Homework.Companies do
   def create_company(attrs \\ %{}) do
     %Company{}
     |> Company.changeset(attrs)
-    |> Repo.insert!()
+    |> Repo.insert()
   end
 
   @doc """
@@ -70,7 +70,7 @@ defmodule Homework.Companies do
   def update_company(%Company{} = company, attrs) do
     company
     |> Company.changeset(attrs)
-    |> Repo.update!()
+    |> Repo.update()
   end
 
   @doc """
