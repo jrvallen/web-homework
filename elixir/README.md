@@ -40,7 +40,7 @@ Also if you just want to run postgres in docker, you can run `docker-compose up 
   * Absinthe: https://hexdocs.pm/absinthe/overview.html
 
 ## Objectives completed for the homework:
-  * Wrote a new schema, queries, and mutations to add companies to the app
+  ### Wrote a new schema, queries, and mutations to add companies to the app
     - Re-created migrations ('mix phx.gen.migration ...') to add Company to the mix. Set following foreign key constraints on the following relationships:
       * 'companies c' -> 'users u' on 'c.id = u.company_id'
       * 'companies c' -> 'transactions t' on 'c.id = t.company_id'
@@ -67,14 +67,14 @@ Also if you just want to run postgres in docker, you can run `docker-compose up 
     - Added 'Company' resolver and updated the 'User' and 'Transaction' resolvers
       * Potential security risk here with a user trying to get data from another company
   
-  * Seeded the database using 'seeds.exs'. Uses 'create_companyTransaction' to update companies availalbe balance. Generates the following:
+  ### Seeded the database using 'seeds.exs'. Uses 'create_companyTransaction' to update companies availalbe balance. Generates the following:
     - 2 merchants
     - 2 companies
     - 2 users (1 per company)
     - 5 transactions (split 3 & 2 between companies)
     - Seeded database with a few records using 'GraphiQL' to verify that changes to resolvers and mutations were working
 
-  * Wrote tests for resolvers and mutations:
+  ### Wrote tests for resolvers and mutations:
     - Updated tests for 'User' & 'Transaction' functions to include additional 'Company' fields
     - created 'companytransaction_test.exs' to test valid and invalid returns of 'create_companyTransaction/1'
       * when doing this I relized I needed proper error handling on the function itself in order to properly test an invalid case.
