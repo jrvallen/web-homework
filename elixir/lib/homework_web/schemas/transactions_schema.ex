@@ -31,6 +31,7 @@ defmodule HomeworkWeb.Schemas.TransactionsSchema do
     end
   end
 
+  #old create_transaction function obselete
   object :transaction_mutations do
     @desc "Create a new transaction"
     field :create_transaction, :transaction do

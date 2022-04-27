@@ -41,7 +41,7 @@ Also if you just want to run postgres in docker, you can run `docker-compose up 
 
 ## Objectives completed for the homework:
   ### 1. Wrote a new schema, queries, and mutations to add companies to the app
-  - Re-created migrations (`mix phx.gen.migration ...`) to add Company to the mix. Set following foreign key constraints on the following relationships:
+  - Added migrations (`mix phx.gen.migration ...`) to add Company to the mix and maintain referential integrity as well as alter existing `users` and `transactions` tables. Set following foreign key constraints on the following relationships:
     * `companies c` -> `users u` on `c.id = u.company_id`
     * `companies c` -> `transactions t` on `c.id = t.company_id`
     * `users u` -> `transactions t` on `u.id = t.user_id`
@@ -59,26 +59,29 @@ Also if you just want to run postgres in docker, you can run `docker-compose up 
     * delete_company/1
     * change_company/2
 
-  - Created additional context `Homework.CompanyTransactions` to handle calculation of `available_credit` when a txn is created. Functions include:
+  - Created additional context `Homework.CompanyTransactions` to handle calculation of `available_credit` when a txn is created. This seemed like a more efficient way of keeping track of that field instead of using `Repo.aggregate/3` everytime.   Functions include:
     * create_companyTransaction/1
-      - TODO: add validation to verify that company has sufficient available balance (Where clause?)
+      - added validation to verify that company has sufficient available balance
     * list_companyTransactions/1 - list transactions per specified company
+    * calculate_credit/2 - renturns tuple with map containing new `credit_line` & `available_credit` after creating a transaction. Amount is calculated based on if the transaction is `credit` or `debit`. Only used in the create_companyTransaction/1 function
   
   - Added `Company` resolver and updated the `User` and `Transaction` resolvers
     * Potential security risk here with a user trying to get data from another company
+    * I don't like that the front end is able to update and delete transactions
   
   ### 2. Seeded the database using `seeds.exs`. Uses `create_companyTransaction` to update companies availalbe balance. Generates the following:
   - 2 merchants
   - 2 companies
   - 2 users (1 per company)
-  - 5 transactions (split 3 & 2 between companies)
+  - 7 transactions (company1: 3 debit, 1 credit | company2: 2 debit, 1 credit)
   - Seeded database with a few records using `GraphiQL` to verify that changes to resolvers and mutations were working
 
   ### 3. Wrote tests for resolvers and mutations:
   - Updated tests for `User` & `Transaction` functions to include additional `Company` fields
   - created `companytransaction_test.exs` to test valid and invalid returns of `create_companyTransaction/1`
-    * when doing this I relized I needed proper error handling on the function itself in order to properly test an invalid case.
-    * TODO: update test to include where clause
+    * Includes testing for debit and credit transactions and calculating their available limits depending on which type of transaction(debit/credit) it is
   - created `companies_test.exs` to test company queries and mutations
-  - TODO: Write tests for resolvers?
-  - Resulted in 36 successful tests with 0 failures
+  - Resulted in 38 successful tests with 0 failures
+
+  ### Bonus:
+  - Fixed failed test. I'm guessing that was the bug with `transactions`

@@ -19,7 +19,10 @@ alias Homework.Users
 alias Homework.Repo
 
 #clear out db when run
-Repo.clear_db()
+Repo.delete_all(Homework.Transactions.Transaction)
+Repo.delete_all(Homework.Users.User)
+Repo.delete_all(Homework.Companies.Company)
+Repo.delete_all(Homework.Merchants.Merchant)
 
 #re-seed
 {:ok, merchant1} = Merchants.create_merchant(%{name: "Apple", description: "Pay more"})
@@ -34,7 +37,7 @@ Repo.clear_db()
 CompanyTransactions.create_companyTransaction(
   %{
     amount: 100,
-    credit: true,
+    debit: true,
     description: "Spent all my money",
     user_id: user1.id,
     merchant_id: merchant1.id,
@@ -45,7 +48,7 @@ CompanyTransactions.create_companyTransaction(
 CompanyTransactions.create_companyTransaction(
   %{
     amount: 500,
-    credit: true,
+    debit: true,
     description: "Spending all my money",
     user_id: user1.id,
     merchant_id: merchant2.id,
@@ -56,6 +59,17 @@ CompanyTransactions.create_companyTransaction(
 CompanyTransactions.create_companyTransaction(
   %{
     amount: 1000,
+    debit: true,
+    description: "Still spending all my money",
+    user_id: user1.id,
+    merchant_id: merchant1.id,
+    company_id: company1.id
+  }
+)
+
+CompanyTransactions.create_companyTransaction(
+  %{
+    amount: 10001,
     credit: true,
     description: "Still spending all my money",
     user_id: user1.id,
@@ -67,7 +81,7 @@ CompanyTransactions.create_companyTransaction(
 CompanyTransactions.create_companyTransaction(
   %{
     amount: 10,
-    credit: true,
+    debit: true,
     description: "Tacos",
     user_id: user2.id,
     merchant_id: merchant1.id,
@@ -78,6 +92,17 @@ CompanyTransactions.create_companyTransaction(
 CompanyTransactions.create_companyTransaction(
   %{
     amount: 10,
+    debit: true,
+    description: "Pizza",
+    user_id: user2.id,
+    merchant_id: merchant1.id,
+    company_id: company2.id
+  }
+)
+
+CompanyTransactions.create_companyTransaction(
+  %{
+    amount: 1056,
     credit: true,
     description: "Pizza",
     user_id: user2.id,

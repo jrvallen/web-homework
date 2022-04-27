@@ -11,11 +11,13 @@ defmodule Homework.CompaniesTest do
       credit_line: 100,
       available_credit: 100
     }
+
     @update_attrs %{
       name: "some updated name",
       credit_line: 200,
       available_credit: 200
     }
+
     @invalid_attrs %{
       name: nil,
       credit_line: nil,
@@ -23,6 +25,7 @@ defmodule Homework.CompaniesTest do
     }
 
     def company_fixture(attrs \\ %{}) do
+      Homework.Repo.delete_all(Company)
       {:ok, company} =
         attrs
         |> Enum.into(@valid_attrs)
@@ -31,7 +34,6 @@ defmodule Homework.CompaniesTest do
     end
 
     test "list_companies/1 returns all companies" do
-      Homework.Repo.delete_all(Company)
       company = company_fixture()
       assert Companies.list_companies([]) == [company]
     end
