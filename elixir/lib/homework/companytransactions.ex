@@ -25,7 +25,7 @@ defmodule Homework.CompanyTransactions do
       {:ok, new_credit_line, new_available} <- calculate_credit(new_txn, company_to_update) do
       company_to_update |> Companies.update_company(%{credit_line: new_credit_line, available_credit: new_available})
     else
-      _error -> {:error, "Insufficient funds"}
+      error -> error
     end
   end
 

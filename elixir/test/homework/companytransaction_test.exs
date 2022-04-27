@@ -204,5 +204,11 @@ defmodule Homework.CompanyTransactionTest do
       assert company.available_credit == 108
       assert company.name == "some name"
     end
+
+    test "create_companyTransaction/1 with invalid data returns error changeset", %{
+      invalid_attrs: invalid_attrs
+    } do
+      assert {:error, %Ecto.Changeset{}} = CompanyTransactions.create_companyTransaction(invalid_attrs)
+    end
   end
 end

@@ -81,7 +81,7 @@ Also if you just want to run postgres in docker, you can run `docker-compose up 
   - created `companytransaction_test.exs` to test valid and invalid returns of `create_companyTransaction/1`
     * Includes testing for debit and credit transactions and calculating their available limits depending on which type of transaction(debit/credit) it is
   - created `companies_test.exs` to test company queries and mutations
-  - Resulted in 38 successful tests with 0 failures
+  - Resulted in 39 successful tests with 0 failures
 
   ### Bonus:
   - Fixed failed test. I'm guessing that was the bug with `transactions`
