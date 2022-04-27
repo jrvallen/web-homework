@@ -63,11 +63,11 @@ Also if you just want to run postgres in docker, you can run `docker-compose up 
     * create_companyTransaction/1
       - added validation to verify that company has sufficient available balance
     * list_companyTransactions/1 - list transactions per specified company
-    * calculate_credit/2 - renturns tuple with map containing new `credit_line` & `available_credit` after creating a transaction. Amount is calculated based on if the transaction is `credit` or `debit`. Only used in the create_companyTransaction/1 function
+    * calculate_credit/2 - renturns tuple containing new `credit_line` & `available_credit` after creating a transaction. Amount is calculated based on if the transaction is `credit` or `debit`. Only used in the create_companyTransaction/1 function
   
   - Added `Company` resolver and updated the `User` and `Transaction` resolvers
     * Potential security risk here with a user trying to get data from another company
-    * I don't like that the front end is able to update and delete transactions
+    * I don't like that the front end is able to update and delete companies and transactions
   
   ### 2. Seeded the database using `seeds.exs`. Uses `create_companyTransaction` to update companies availalbe balance. Generates the following:
   - 2 merchants
